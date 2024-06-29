@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   frontend:
-    image: local-excalidraw
+    image: ghcr.io/aidanschmitigal/excalidraw:latest
     build: ./excalidraw
     restart: unless-stopped
     environment:
@@ -14,14 +14,14 @@ services:
       - 80:80
 
   storage:
-    image: local-excalidraw-storage
+    image: ghcr.io/aidanschmitigal/excalidraw-storage-backend:latest
     build: ./excalidraw-storage-backend
     restart: unless-stopped
     ports:
       - 3202:8080
 
   room:
-    image: local-excalidraw-room
+    image: ghcr.io/aidanschmitigal/excalidraw-room:latest
     build: ./excalidraw-room
     restart: unless-stopped
     ports:
