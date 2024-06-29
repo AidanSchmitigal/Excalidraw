@@ -20,9 +20,19 @@ export const AvailableRooms = (props: {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <div className="ShareDialog__active__available__rooms__list">
-        {rooms.map((room) => (
-          <RoomItem key={room.roomID} room={room} collabAPI={props.collabAPI} />
-        ))}
+        {rooms.length > 0 ? (
+          rooms.map((room) => (
+            <RoomItem
+              key={room.roomID}
+              room={room}
+              collabAPI={props.collabAPI}
+            />
+          ))
+        ) : (
+          <div className="ShareDialog__active__available__rooms__list__item">
+            No rooms available
+          </div>
+        )}
       </div>
     </Suspense>
   );
