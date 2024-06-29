@@ -9,13 +9,13 @@ There is a docker-compose.yml file in the root directory, but there are no prebu
 To build the images, run:
 
 ```bash
-docker-compose build
+docker compose build
 ```
 
 To run the server, run:
 
 ```bash
-docker-compose up
+docker compose up
 ```
 
 The server will be available at http://localhost:3204.
