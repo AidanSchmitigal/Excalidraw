@@ -39,7 +39,7 @@ jobs:
         with:
           context: ./excalidraw
           push: true
-          tags: ${{ steps.meta-excalidraw.outputs.tags }}
+          tags: latest
           labels: ${{ steps.meta-excalidraw.outputs.labels }}
 
       # Build and push for excalidraw-room
@@ -55,7 +55,7 @@ jobs:
         with:
           context: ./excalidraw-room
           push: true
-          tags: ${{ steps.meta-excalidraw-room.outputs.tags }}
+          tags: latest
           labels: ${{ steps.meta-excalidraw-room.outputs.labels }}
 
       # Build and push for excalidraw-storage-backend
@@ -71,5 +71,5 @@ jobs:
         with:
           context: ./excalidraw-storage-backend
           push: true
-          tags: ${{ steps.meta-excalidraw-storage-backend.outputs.tags }}
+          tags: latest
           labels: ${{ steps.meta-excalidraw-storage-backend.outputs.labels }}
