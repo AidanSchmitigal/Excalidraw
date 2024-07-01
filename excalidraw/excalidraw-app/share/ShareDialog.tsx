@@ -222,7 +222,11 @@ const ShareDialogInner = (props: ShareDialogProps) => {
           <>
             <h3 className="ShareDialog__active__header">Other Rooms</h3>
             <AvailableRooms rooms={rooms} collabAPI={props.collabAPI} />
+          </>
+        ) : null}
 
+        {!(props.collabAPI && activeRoomLink) ? (
+          <>
             <h3 className="ShareDialog__active__header">Create a new room</h3>
 
             <div className="ShareDialog__picker__button">

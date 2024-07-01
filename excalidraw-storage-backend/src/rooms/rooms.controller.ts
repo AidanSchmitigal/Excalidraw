@@ -50,9 +50,6 @@ export class RoomsController {
   // Get all rooms ids
   @Get()
   async findAll() {
-    const ids = (await this.storageService.getAll(this.namespace)).map(
-      ([key, value]) => key,
-    );
-    return ids;
+    return this.storageService.keys(this.namespace);
   }
 }

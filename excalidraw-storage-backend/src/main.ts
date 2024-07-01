@@ -18,6 +18,6 @@ async function bootstrap() {
 
   app.setGlobalPrefix(process.env.GLOBAL_PREFIX ?? '/api/v2');
 
-  await app.listen(process.env.PORT ?? 8080);
+  await app.listen(process.env.PORT ?? 8082);
 }
 bootstrap();

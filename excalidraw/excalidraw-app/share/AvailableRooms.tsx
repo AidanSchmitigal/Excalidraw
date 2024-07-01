@@ -49,6 +49,7 @@ const RoomItem = (props: {
 
   const handleSubmit = () => {
     if (
+      props.room.roomID !== props.collabAPI.getCurrentRoomID() &&
       password &&
       password.length === ROOM_PASSWORD_LENGTH &&
       RE_COLLAB_LINK.test(`#room=${props.room.roomID},${password}`)

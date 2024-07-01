@@ -1,10 +1,11 @@
 import { Injectable, Logger } from '@nestjs/common';
 import * as Keyv from 'keyv';
+import KeyvFile from './FileStorage';
 
 @Injectable()
 export class StorageService {
   private readonly logger = new Logger(StorageService.name);
-  storagesMap = new Map<string, Keyv>();
+  storagesMap = new Map<string, KeyvFile>();
 
   constructor() {
     const uri = process.env[`STORAGE_URI`];
@@ -15,24 +16,36 @@ export class StorageService {
     }
 
     Object.keys(StorageNamespace).forEach((namespace) => {
-      const keyv = new Keyv({
-        uri,
-        namespace,
+      const keyv = new KeyvFile({
+        filename: `${
+          process.env.STORAGE_PATH ?? '/app/storage'
+        }/${namespace}.json`,
+        writeDelay: 10000,
+        encode: JSON.stringify,
+        decode: JSON.parse,
       });
-      keyv.on('error', (err) =>
-        this.logger.error(`Connection Error for namespace ${namespace}`, err),
-      );
+      // const keyv = new Keyv({
+      //   namespace,
+      //   store: new KeyvFile({
+      //     filename: `${
+      //       process.env.STORAGE_PATH ?? '/app/storage'
+      //     }/${namespace}.json`,
+      //     writeDelay: 10000,
+      //     encode: JSON.stringify,
+      //     decode: JSON.parse,
+      //   }),
+      // });
+      // keyv.on('error', (err) =>
+      //   this.logger.error(`Connection Error for namespace ${namespace}`, err),
+      // );
       this.storagesMap.set(namespace, keyv);
     });
   }
   get(key: string, namespace: StorageNamespace): Promise<Buffer> {
     return this.storagesMap.get(namespace).get(key);
   }
-  async getAll(namespace: StorageNamespace): Promise<[string, Buffer][]> {
-    const allStuff = [];
-    const asyncIterator = this.storagesMap.get(namespace).iterator();
-    for await (const i of asyncIterator) allStuff.push(i);
-    return allStuff;
+  async keys(namespace: StorageNamespace): Promise<string[]> {
+    return this.storagesMap.get(namespace).keys();
   }
   async has(key: string, namespace: StorageNamespace): Promise<boolean> {
     return !!(await this.storagesMap.get(namespace).get(key));

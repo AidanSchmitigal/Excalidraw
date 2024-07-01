@@ -23,7 +23,7 @@ require("dotenv").config(
 );
 
 const app = express();
-const port = 8080;
+const port: number = process.env.PORT ? parseInt(process.env.PORT) : 8084;
 
 app.use(express.static("public"));
 

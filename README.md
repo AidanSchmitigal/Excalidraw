@@ -4,18 +4,11 @@ This is a fork of [excalidraw](https://github.com/excalidraw/excalidraw) and [ex
 
 ## Usage
 
-There is a docker-compose.yml file in the root directory, but there are no prebuilt images yet.
-
-To build the images, run:
-
-```bash
-docker compose build
-```
-
+There is a docker-compose.yml file in the root directory, with all the required services.
 To run the server, run:
 
 ```bash
 docker compose up
 ```
 
-The server will be available at http://localhost:3204.
+The server will be available at http://localhost:3200.
