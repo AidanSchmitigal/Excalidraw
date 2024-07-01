@@ -2,11 +2,10 @@ name: Create and publish Docker images
 
 on:
   push:
-    branches: ['main']
+    branches: ["main"]
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   build-and-push-images:
@@ -32,7 +31,7 @@ jobs:
         uses: docker/metadata-action@v5.5.1
         with:
           tags: type=raw,value=latest
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-excalidraw
+          images: ${{ env.REGISTRY }}/excalidraw
 
       - name: Build and push Docker image (excalidraw)
         id: push-excalidraw
@@ -49,7 +48,7 @@ jobs:
         uses: docker/metadata-action@v5.5.1
         with:
           tags: type=raw,value=latest
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-excalidraw-room
+          images: ${{ env.REGISTRY }}/excalidraw-room
 
       - name: Build and push Docker image (excalidraw-room)
         id: push-excalidraw-room
@@ -66,7 +65,7 @@ jobs:
         uses: docker/metadata-action@v5.5.1
         with:
           tags: type=raw,value=latest
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-excalidraw-storage-backend
+          images: ${{ env.REGISTRY }}/excalidraw-storage-backend
 
       - name: Build and push Docker image (excalidraw-storage-backend)
         id: push-excalidraw-storage-backend
