@@ -24,4 +24,4 @@ COPY ./startup.sh /usr/local/bin/startup.sh
 
 RUN chmod +x /usr/local/bin/startup.sh
 
-CMD ["/usr/local/bin/startup.sh"]
+CMD ["/bin/sh", "/usr/local/bin/startup.sh;", "nginx", "-g", "daemon off;"]
