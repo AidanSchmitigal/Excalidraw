@@ -30,8 +30,7 @@ import type { StoredScene } from "./StorageBackend";
 
 import type { Socket } from "socket.io-client";
 
-const HTTP_STORAGE_BACKEND_URL = import.meta.env
-  .VITE_APP_HTTP_STORAGE_BACKEND_URL;
+const HTTP_STORAGE_BACKEND_URL = import.meta.env.VITE_APP_BACKEND_V2_GET_URL;
 const SCENE_VERSION_LENGTH_BYTES = 4;
 
 // There is a lot of intentional duplication with the firebase file

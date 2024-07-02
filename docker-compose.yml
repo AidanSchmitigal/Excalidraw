@@ -3,19 +3,16 @@ version: "3.9"
 services:
   frontend:
     image: ghcr.io/aidanschmitigal/excalidraw:latest
-    build: ./excalidraw
     restart: unless-stopped
     environment:
-      - VITE_APP_BACKEND_V2_GET_URL=https://test.com/api/v2/
-      - VITE_APP_BACKEND_V2_POST_URL=https://test.com/api/v2/post/
-      - VITE_APP_WS_SERVER_URL=http://127.0.0.1:3204
-      - VITE_APP_HTTP_STORAGE_BACKEND_URL=http://127.0.0.1:3202/api/v2
+      - VITE_APP_BACKEND_V2_GET_URL=https://json.test.com/api/v2/
+      - VITE_APP_BACKEND_V2_POST_URL=https://json.test.com/api/v2/post/
+      - VITE_APP_WS_SERVER_URL=https://websocket.test.com
     ports:
-      - 3200:8080
+      - 3200:80
 
   storage:
     image: ghcr.io/aidanschmitigal/excalidraw-storage-backend:latest
-    build: ./excalidraw-storage-backend
     restart: unless-stopped
     volumes:
       - ./storage/storage:/app/storage
@@ -24,7 +21,6 @@ services:
 
   room:
     image: ghcr.io/aidanschmitigal/excalidraw-room:latest
-    build: ./excalidraw-room
     restart: unless-stopped
     ports:
       - 3204:8084
