@@ -27,7 +27,7 @@ jobs:
               - 'excalidraw/**'
 
       - name: Log in to the Container registry
-        if: ${{ steps.changes.outputs.src }} == 'true'
+        if: steps.changes.outputs.src == 'true'
         uses: docker/login-action@v3.2.0
         with:
           registry: ${{ env.REGISTRY }}
@@ -35,7 +35,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Extract metadata for Docker (excalidraw)
-        if: ${{ steps.changes.outputs.src }} == 'true'
+        if: steps.changes.outputs.src == 'true'
         id: meta-excalidraw
         uses: docker/metadata-action@v5.5.1
         with:
@@ -43,7 +43,7 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
       - name: Build and push Docker image (excalidraw)
-        if: ${{ steps.changes.outputs.src }} == 'true'
+        if: steps.changes.outputs.src == 'true'
         id: push-excalidraw
         uses: docker/build-push-action@v6.2.0
         with:
@@ -70,7 +70,7 @@ jobs:
               - 'excalidraw-room/**'
 
       - name: Log in to the Container registry
-        if: ${{ steps.changes.outputs.src }} == 'true'
+        if: steps.changes.outputs.src == 'true'
         uses: docker/login-action@v3.2.0
         with:
           registry: ${{ env.REGISTRY }}
@@ -78,7 +78,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Extract metadata for Docker (excalidraw-room)
-        if: ${{ steps.changes.outputs.src }} == 'true'
+        if: steps.changes.outputs.src == 'true'
         id: meta-excalidraw-room
         uses: docker/metadata-action@v5.5.1
         with:
@@ -86,7 +86,7 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-room
 
       - name: Build and push Docker image (excalidraw-room)
-        if: ${{ steps.changes.outputs.src }} == 'true'
+        if: steps.changes.outputs.src == 'true'
         id: push-excalidraw-room
         uses: docker/build-push-action@v6.2.0
         with:
@@ -113,7 +113,7 @@ jobs:
               - 'excalidraw-storage-backend/**'
 
       - name: Log in to the Container registry
-        if: ${{ steps.changes.outputs.src }} == 'true'
+        if: steps.changes.outputs.src == 'true'
         uses: docker/login-action@v3.2.0
         with:
           registry: ${{ env.REGISTRY }}
@@ -121,7 +121,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Extract metadata for Docker (excalidraw-storage-backend)
-        if: ${{ steps.changes.outputs.src }} == 'true'
+        if: steps.changes.outputs.src == 'true'
         id: meta-excalidraw-storage-backend
         uses: docker/metadata-action@v5.5.1
         with:
@@ -129,7 +129,7 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-storage-backend
 
       - name: Build and push Docker image (excalidraw-storage-backend)
-        if: ${{ steps.changes.outputs.src }} == 'true'
+        if: steps.changes.outputs.src == 'true'
         id: push-excalidraw-storage-backend
         uses: docker/build-push-action@v6.2.0
         with:
