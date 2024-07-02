@@ -20,7 +20,7 @@ COPY --from=build /opt/node_app/excalidraw-app/build /usr/share/nginx/html
 
 HEALTHCHECK CMD wget -q -O /dev/null http://localhost || exit 1
 
-COPY startup.sh /usr/local/bin/startup.sh
+COPY ./startup.sh /usr/local/bin/startup.sh
 
 RUN chmod +x /usr/local/bin/startup.sh
 
