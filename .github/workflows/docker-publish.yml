@@ -9,7 +9,7 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  build-and-push-images:
+  build-and-push-excalidraw:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -19,15 +19,23 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            src:
+              - 'excalidraw/**'
+
       - name: Log in to the Container registry
+        if: ${{ steps.changes.outputs.src }} == 'true'
         uses: docker/login-action@v3.2.0
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Build and push for excalidraw
       - name: Extract metadata for Docker (excalidraw)
+        if: ${{ steps.changes.outputs.src }} == 'true'
         id: meta-excalidraw
         uses: docker/metadata-action@v5.5.1
         with:
@@ -35,6 +43,7 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
       - name: Build and push Docker image (excalidraw)
+        if: ${{ steps.changes.outputs.src }} == 'true'
         id: push-excalidraw
         uses: docker/build-push-action@v6.2.0
         with:
@@ -43,8 +52,33 @@ jobs:
           tags: ${{ steps.meta-excalidraw.outputs.tags }}
           labels: ${{ steps.meta-excalidraw.outputs.labels }}
 
-      # Build and push for excalidraw-room
+  build-and-push-excalidraw-room:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            src:
+              - 'excalidraw-room/**'
+
+      - name: Log in to the Container registry
+        if: ${{ steps.changes.outputs.src }} == 'true'
+        uses: docker/login-action@v3.2.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Extract metadata for Docker (excalidraw-room)
+        if: ${{ steps.changes.outputs.src }} == 'true'
         id: meta-excalidraw-room
         uses: docker/metadata-action@v5.5.1
         with:
@@ -52,6 +86,7 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-room
 
       - name: Build and push Docker image (excalidraw-room)
+        if: ${{ steps.changes.outputs.src }} == 'true'
         id: push-excalidraw-room
         uses: docker/build-push-action@v6.2.0
         with:
@@ -60,8 +95,33 @@ jobs:
           tags: ${{ steps.meta-excalidraw-room.outputs.tags }}
           labels: ${{ steps.meta-excalidraw-room.outputs.labels }}
 
-      # Build and push for excalidraw-storage-backend
+  build-and-push-excalidraw-storage-backend:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            src:
+              - 'excalidraw-storage-backend/**'
+
+      - name: Log in to the Container registry
+        if: ${{ steps.changes.outputs.src }} == 'true'
+        uses: docker/login-action@v3.2.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Extract metadata for Docker (excalidraw-storage-backend)
+        if: ${{ steps.changes.outputs.src }} == 'true'
         id: meta-excalidraw-storage-backend
         uses: docker/metadata-action@v5.5.1
         with:
@@ -69,6 +129,7 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-storage-backend
 
       - name: Build and push Docker image (excalidraw-storage-backend)
+        if: ${{ steps.changes.outputs.src }} == 'true'
         id: push-excalidraw-storage-backend
         uses: docker/build-push-action@v6.2.0
         with:
