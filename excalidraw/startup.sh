@@ -12,3 +12,5 @@ do
 
     find /usr/share/nginx/html -type f \( -name '*.js' \) -exec sed -i "s|${to_replace}|${value}|g" '{}' +
 done
+
+exec "$@"
