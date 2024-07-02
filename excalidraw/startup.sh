@@ -10,8 +10,8 @@ do
 
     to_replace_in_code=${key/$SET_ENVIRONEMNT_VARIABLE/"$PREFIX_IN_COMPILED_CODE"}
 
-    echo "Transforming '$to_replace' to '$value'"
-    find /usr/share/nginx/html -type f \( -name '*.js' \) -exec sed -i "s|${to_replace}|${value}|g" '{}' +
+    echo "Transforming '$to_replace_in_code' to '$value' ('$key')"
+    find /usr/share/nginx/html -type f \( -name '*.js' \) -exec sed -i "s|${to_replace_in_code}|${value}|g" '{}' +
 done
 
 exec "$@"
