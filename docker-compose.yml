@@ -5,8 +5,8 @@ services:
     image: ghcr.io/aidanschmitigal/excalidraw:latest
     restart: unless-stopped
     environment:
-      - VITE_APP_BACKEND_V2_GET_URL=https://json.test.com/api/v2/
-      - VITE_APP_BACKEND_V2_POST_URL=https://json.test.com/api/v2/post/
+      - VITE_APP_BACKEND_V2_GET_URL=https://json.test.com/api/v2
+      - VITE_APP_BACKEND_V2_POST_URL=https://json.test.com/api/v2/post
       - VITE_APP_WS_SERVER_URL=https://websocket.test.com
     ports:
       - 3200:80
@@ -15,7 +15,7 @@ services:
     image: ghcr.io/aidanschmitigal/excalidraw-storage-backend:latest
     restart: unless-stopped
     volumes:
-      - ./storage/storage:/app/storage
+      - ./storage:/app/storage
     ports:
       - 3202:8082
 
