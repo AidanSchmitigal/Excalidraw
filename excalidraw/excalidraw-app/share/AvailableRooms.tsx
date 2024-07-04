@@ -112,7 +112,6 @@ const RoomItem = (props: {
               type="password"
               min={ROOM_PASSWORD_LENGTH}
               max={ROOM_PASSWORD_LENGTH}
-              value={password}
               onChange={(e) => (password = e.target.value)}
               placeholder="Password"
               onKeyDown={(event) => event.key === KEYS.ENTER && handleSubmit()}
