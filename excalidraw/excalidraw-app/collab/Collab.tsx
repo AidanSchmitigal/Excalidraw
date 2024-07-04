@@ -451,7 +451,10 @@ class Collab extends PureComponent<CollabProps, CollabState> {
   private fallbackInitializationHandler: null | (() => any) = null;
 
   startCollaboration = async (
-    existingRoomLinkData: null | { roomId: string; roomKey: string },
+    newRoomLinkData:
+      | null
+      | { roomId: string; roomKey: string }
+      | { roomName: string },
   ) => {
     if (!this.state.username) {
       import("@excalidraw/random-username").then(({ getRandomUsername }) => {
@@ -467,16 +470,20 @@ class Collab extends PureComponent<CollabProps, CollabState> {
     let roomId;
     let roomKey;
 
-    if (existingRoomLinkData) {
-      ({ roomId, roomKey } = existingRoomLinkData);
+    if (newRoomLinkData && "roomName" in newRoomLinkData) {
+      ({ roomId, roomKey } = await generateCollaborationLinkData());
+      roomId = newRoomLinkData.roomName;
+      newRoomLinkData = null;
+    } else if (newRoomLinkData) {
+      ({ roomId, roomKey } = newRoomLinkData);
     } else {
       ({ roomId, roomKey } = await generateCollaborationLinkData());
-      window.history.pushState(
-        {},
-        APP_NAME,
-        getCollaborationLink({ roomId, roomKey }),
-      );
     }
+    window.history.pushState(
+      {},
+      APP_NAME,
+      getCollaborationLink({ roomId, roomKey }),
+    );
 
     // TODO: `ImportedDataState` type here seems abused
     const scenePromise = resolvablePromise<
@@ -490,6 +497,9 @@ class Collab extends PureComponent<CollabProps, CollabState> {
     const { default: socketIOClient } = await import(
       /* webpackChunkName: "socketIoClient" */ "socket.io-client"
     );
+
+    const existingRoomLinkData: null | { roomId: string; roomKey: string } =
+      newRoomLinkData;
 
     const fallbackInitializationHandler = () => {
       this.initializeRoom({

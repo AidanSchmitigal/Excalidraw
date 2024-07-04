@@ -1,5 +1,7 @@
 # Excalidraw Collaboration Server
 
+[![Create and publish Docker images](https://github.com/AidanSchmitigal/Excalidraw/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/AidanSchmitigal/Excalidraw/actions/workflows/docker-publish.yml)
+
 This is a fork of [excalidraw](https://github.com/excalidraw/excalidraw) and [excalidraw-room](https://github.com/excalidraw/excalidraw-room) and [excalidraw-storage-backend](https://gitlab.com/kiliandeca/excalidraw-storage-backend) with some modifications.
 
 ## Usage
