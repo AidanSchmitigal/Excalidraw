@@ -100,8 +100,11 @@ export const saveToHttpStorage = async (
 
   const sceneVersionFromRequest = parseSceneVersionFromRequest(buffer);
 
-  if (sceneVersionFromRequest >= sceneVersion) {
+  if (sceneVersionFromRequest > sceneVersion) {
     throw new Error("Tried to save outdated scene");
+  }
+  if (sceneVersionFromRequest === sceneVersion) {
+    return null;
   }
 
   const existingElements = await getElementsFromBuffer(buffer, roomKey);
