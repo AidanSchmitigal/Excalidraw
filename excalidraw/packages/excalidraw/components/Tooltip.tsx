@@ -64,10 +64,12 @@ const updateTooltip = (
   tooltip: HTMLDivElement,
   label: string,
   long: boolean,
+  nowrap: boolean,
 ) => {
   tooltip.classList.add("excalidraw-tooltip--visible");
   tooltip.style.minWidth = long ? "50ch" : "10ch";
-  tooltip.style.maxWidth = long ? "50ch" : "15ch";
+  tooltip.style.maxWidth = long ? "50ch" : nowrap ? "none" : "15ch";
+  tooltip.style.whiteSpace = nowrap ? "nowrap" : "normal";
 
   tooltip.textContent = label;
 
@@ -79,6 +81,7 @@ type TooltipProps = {
   children: React.ReactNode;
   label: string;
   long?: boolean;
+  nowrap?: boolean;
   style?: React.CSSProperties;
   disabled?: boolean;
 };
@@ -87,6 +90,7 @@ export const Tooltip = ({
   children,
   label,
   long = false,
+  nowrap = false,
   style,
   disabled,
 }: TooltipProps) => {
@@ -106,6 +110,7 @@ export const Tooltip = ({
           getTooltipDiv(),
           label,
           long,
+          nowrap,
         )
       }
       onPointerLeave={() =>

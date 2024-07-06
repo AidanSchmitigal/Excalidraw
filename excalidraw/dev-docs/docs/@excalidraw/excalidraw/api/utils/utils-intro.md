@@ -246,20 +246,20 @@ useHandleLibrary(opts: &#123;<br/>&nbsp;
 
 In the future, we will be adding support for handling `library` persistence to `browser storage` (or elsewhere).
 
-### getSceneVersion
+### hashElementsVersion
 
 This function returns the current `scene` version.
 
 **_Signature_**
 
 <pre>
-getSceneVersion(elements:  <a href="https://github.com/excalidraw/excalidraw/blob/master/packages/excalidraw/element/types.ts#L114">ExcalidrawElement[]</a>)
+hashElementsVersion(elements:  <a href="https://github.com/excalidraw/excalidraw/blob/master/packages/excalidraw/element/types.ts#L114">ExcalidrawElement[]</a>)
 </pre>
 
 **How to use**
 
 ```js
-import { getSceneVersion } from "@excalidraw/excalidraw";
+import { hashElementsVersion } from "@excalidraw/excalidraw";
 ```
 
 ### sceneCoordsToViewportCoords

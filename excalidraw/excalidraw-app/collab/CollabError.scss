@@ -4,9 +4,12 @@
   .collab-errors-button {
     width: 26px;
     height: 26px;
+    padding: 0rem;
     margin-inline-end: 1rem;
 
     color: var(--color-danger);
+    background-color: transparent;
+    border: none;
 
     flex-shrink: 0;
   }
@@ -14,6 +17,21 @@
   .collab-errors-button-shake {
     animation: strong-shake 0.15s 6;
   }
+
+  .collab-sync-status {
+    width: 2rem;
+    height: 2rem;
+
+    padding: 0rem;
+    margin-inline-end: 0.5rem;
+
+    color: var(--color-warning-darker);
+    background-color: transparent;
+    border: none;
+
+    flex-shrink: 0;
+  }
+
 
   @keyframes strong-shake {
     0% {

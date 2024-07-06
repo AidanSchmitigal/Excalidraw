@@ -25,7 +25,10 @@ const LiveCollaborationTrigger = ({
       className={clsx("collab-button", { active: isCollaborating })}
       type="button"
       onSelect={onSelect}
-      style={{ position: "relative", width: showIconOnly ? undefined : "auto" }}
+      style={{
+        position: "relative",
+        width: showIconOnly ? undefined : "auto",
+      }}
       title={t("labels.liveCollaboration")}
     >
       {showIconOnly ? share : "Rooms"}

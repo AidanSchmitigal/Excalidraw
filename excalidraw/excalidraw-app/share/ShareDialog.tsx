@@ -171,7 +171,8 @@ const ActiveRoomDialog = ({
             icon={UndoIcon}
             onClick={() => {
               trackEvent("share", "room closed");
-              window.location.hash = "";
+              collabAPI.stopCollaboration(false);
+              // window.location.hash = "";
               if (!collabAPI.isCollaborating()) {
                 handleClose();
               }

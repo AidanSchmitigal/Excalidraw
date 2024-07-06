@@ -9,7 +9,7 @@ import {
   IV_LENGTH_BYTES,
 } from "../../packages/excalidraw/data/encryption";
 import { restoreElements } from "../../packages/excalidraw/data/restore";
-import { hashElementsVersion } from "../../packages/excalidraw/element";
+import { getSceneVersion } from "../../packages/excalidraw/element";
 import type {
   ExcalidrawElement,
   FileId,
@@ -43,7 +43,7 @@ export const isSavedToHttpStorage = (
   elements: readonly ExcalidrawElement[],
 ): boolean => {
   if (portal.socket && portal.roomId && portal.roomKey) {
-    const sceneVersion = hashElementsVersion(elements);
+    const sceneVersion = getSceneVersion(elements);
 
     return httpStorageSceneVersionCache.get(portal.socket) === sceneVersion;
   }
@@ -63,19 +63,21 @@ export const saveToHttpStorage = async (
     // do at this point
     !roomId ||
     !roomKey ||
-    !socket ||
-    isSavedToHttpStorage(portal, elements)
+    !socket
   ) {
+    throw new Error("Not connected to a room");
+  }
+  if (isSavedToHttpStorage(portal, elements)) {
     return null;
   }
 
-  const sceneVersion = hashElementsVersion(elements);
+  const sceneVersion = getSceneVersion(elements);
   const getResponse = await fetch(
     `${HTTP_STORAGE_BACKEND_URL}/rooms/${roomId}`,
   );
 
   if (!getResponse.ok && getResponse.status !== 404) {
-    return null;
+    throw new Error("Could not get room");
   }
   if (getResponse.status === 404) {
     // if room doesn't exist, create it
@@ -89,7 +91,7 @@ export const saveToHttpStorage = async (
     if (result) {
       return elements as SyncableExcalidrawElement[];
     }
-    return null;
+    throw new Error("Could not save elements to new room");
   }
 
   // If room already exist, we compare scene versions to check
@@ -132,7 +134,7 @@ export const saveToHttpStorage = async (
   );
 
   if (!result) {
-    return null;
+    throw new Error("Could not save elements");
   }
 
   httpStorageSceneVersionCache.set(socket, sceneVersion);
@@ -157,7 +159,7 @@ export const loadFromHttpStorage = async (
   const elements = await getElementsFromBuffer(buffer, roomKey);
 
   if (socket) {
-    httpStorageSceneVersionCache.set(socket, hashElementsVersion(elements));
+    httpStorageSceneVersionCache.set(socket, getSceneVersion(elements));
   }
 
   return getSyncableElements(restoreElements(elements, null));

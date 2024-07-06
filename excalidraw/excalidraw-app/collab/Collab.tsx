@@ -14,10 +14,10 @@ import type {
 } from "../../packages/excalidraw/element/types";
 import {
   StoreAction,
-  getSceneVersion,
   restoreElements,
   zoomToFitBounds,
   reconcileElements,
+  getSceneVersion,
 } from "../../packages/excalidraw";
 import type { Collaborator, Gesture } from "../../packages/excalidraw/types";
 import {
@@ -119,9 +119,11 @@ export interface CollabAPI {
   getUsername: CollabInstance["getUsername"];
   getActiveRoomLink: CollabInstance["getActiveRoomLink"];
   setCollabError: CollabInstance["setErrorDialog"];
+  isSavedToFirebase: CollabInstance["isSavedToFirebase"];
   getAvailableRooms: CollabInstance["getAvailableRooms"];
   getCurrentRoomID: CollabInstance["getCurrentRoomID"];
   getStoredRoomPassword: CollabInstance["getStoredRoomPassword"];
+  queueSaveToFirebase: CollabInstance["queueSaveToFirebase"];
 }
 
 interface CollabProps {
@@ -221,9 +223,11 @@ class Collab extends PureComponent<CollabProps, CollabState> {
       getUsername: this.getUsername,
       getActiveRoomLink: this.getActiveRoomLink,
       setCollabError: this.setErrorDialog,
+      isSavedToFirebase: this.isSavedToFirebase,
       getAvailableRooms: this.getAvailableRooms,
       getCurrentRoomID: this.getCurrentRoomID,
       getStoredRoomPassword: this.getStoredRoomPassword,
+      queueSaveToFirebase: this.queueSaveToFirebase,
     };
 
     appJotaiStore.set(collabAPIAtom, collabAPI);
@@ -305,7 +309,7 @@ class Collab extends PureComponent<CollabProps, CollabState> {
 
       this.resetErrorIndicator();
 
-      if (this.isCollaborating() && storedElements) {
+      if (storedElements && this.isCollaborating()) {
         this.handleRemoteSceneUpdate(this._reconcileElements(storedElements));
       }
     } catch (error: any) {
@@ -358,6 +362,8 @@ class Collab extends PureComponent<CollabProps, CollabState> {
       // resetBrowserStateVersions();
       LocalData.fileStorage.reset();
       this.destroySocketClient();
+      window.location.hash = "";
+      window.location.reload();
     } else if (window.confirm(t("alerts.collabStopOverridePrompt"))) {
       // hack to ensure that we prefer we disregard any new browser state
       // that could have been saved in other tabs while we were collaborating
@@ -442,6 +448,8 @@ class Collab extends PureComponent<CollabProps, CollabState> {
     } catch (error) {
       window.alert(t("alerts.decryptFailed"));
       console.error(error);
+      window.location.hash = "";
+      window.location.reload();
       return {
         type: WS_SUBTYPES.INVALID_RESPONSE,
       };
@@ -688,6 +696,13 @@ class Collab extends PureComponent<CollabProps, CollabState> {
     saveRoomPasswordToLocalStorage(roomId, roomKey);
 
     return scenePromise;
+  };
+
+  isSavedToFirebase = () => {
+    return getStorageBackend().isSaved(
+      this.portal,
+      this.excalidrawAPI.getSceneElements(),
+    );
   };
 
   private initializeRoom = async ({

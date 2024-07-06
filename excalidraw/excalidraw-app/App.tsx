@@ -121,6 +121,7 @@ import {
 } from "../packages/excalidraw/components/icons";
 import { appThemeAtom, useHandleAppTheme } from "./useHandleAppTheme";
 import { getStorageBackend } from "./data/StorageBackend";
+import { CollabSyncStatus } from "./collab/CollabSyncStatus";
 
 polyfill();
 
@@ -807,6 +808,7 @@ const ExcalidrawWrapper = () => {
           return (
             <div className="top-right-ui">
               {collabError.message && <CollabError collabError={collabError} />}
+              {isCollaborating && <CollabSyncStatus collabAPI={collabAPI} />}
               <LiveCollaborationTrigger
                 isCollaborating={isCollaborating}
                 onSelect={() =>

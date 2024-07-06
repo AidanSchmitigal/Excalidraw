@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 
 import "./CollabError.scss";
 import { atom } from "jotai";
+import { ErrorDialog } from "../../packages/excalidraw/components/ErrorDialog";
 
 type ErrorIndicator = {
   message: string | null;
@@ -20,6 +21,8 @@ export const collabErrorIndicatorAtom = atom<ErrorIndicator>({
 const CollabError = ({ collabError }: { collabError: ErrorIndicator }) => {
   const [isAnimating, setIsAnimating] = useState(false);
   const clearAnimationRef = useRef<string | number | NodeJS.Timeout>();
+
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     setIsAnimating(true);
@@ -37,15 +40,25 @@ const CollabError = ({ collabError }: { collabError: ErrorIndicator }) => {
   }
 
   return (
-    <Tooltip label={collabError.message} long={true}>
-      <div
-        className={clsx("collab-errors-button", {
-          "collab-errors-button-shake": isAnimating,
-        })}
-      >
-        {warning}
-      </div>
-    </Tooltip>
+    <>
+      <Tooltip label={collabError.message} long={true}>
+        <button
+          className={clsx("collab-errors-button", {
+            "collab-errors-button-shake": isAnimating,
+          })}
+          onClick={() => {
+            setIsOpen(true);
+          }}
+        >
+          {warning}
+        </button>
+      </Tooltip>
+      {isOpen && (
+        <ErrorDialog onClose={() => setIsOpen(false)}>
+          {collabError.message}
+        </ErrorDialog>
+      )}
+    </>
   );
 };
 
