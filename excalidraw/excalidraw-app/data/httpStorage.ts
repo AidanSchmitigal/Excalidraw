@@ -101,7 +101,9 @@ export const saveToHttpStorage = async (
   const sceneVersionFromRequest = parseSceneVersionFromRequest(buffer);
 
   if (sceneVersionFromRequest > sceneVersion) {
-    throw new Error("Tried to save outdated scene");
+    throw new Error(
+      `Tried to save outdated scene (${sceneVersionFromRequest} > ${sceneVersion})`,
+    );
   }
   if (sceneVersionFromRequest === sceneVersion) {
     return null;
